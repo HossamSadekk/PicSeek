@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ImagesApp</string>
+    <string name="results_could_not_be_loaded">Results Could Not be Loaded</string>
 </resources>
