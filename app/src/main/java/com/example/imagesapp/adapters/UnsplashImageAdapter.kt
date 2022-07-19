@@ -10,7 +10,7 @@ import com.example.imagesapp.R
 import com.example.imagesapp.databinding.ItemPhotoBinding
 import com.example.imagesapp.models.UnsplashImage
 
-class UnsplashImageAdapter :
+class UnsplashImageAdapter(private val listener:OnItemClickListener):
     PagingDataAdapter<UnsplashImage, UnsplashImageAdapter.UnsplashViewHolder>(DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnsplashViewHolder {
@@ -32,8 +32,17 @@ class UnsplashImageAdapter :
     }
 
 
-    class UnsplashViewHolder(val binding: ItemPhotoBinding) :
+    inner class UnsplashViewHolder(val binding: ItemPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                if(bindingAdapterPosition != RecyclerView.NO_POSITION){
+                    getItem(bindingAdapterPosition)?.let { it1 -> listener.onItemClick(it1) }
+                }
+            }
+        }
+
         fun bind(unsplashImage: UnsplashImage) {
             binding.apply {
                 Glide.with(itemView).load(unsplashImage.urls.regular).centerCrop()
@@ -41,6 +50,10 @@ class UnsplashImageAdapter :
                 username.text = unsplashImage.user.username
             }
         }
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(unsplashImage: UnsplashImage)
     }
 
     companion object {
