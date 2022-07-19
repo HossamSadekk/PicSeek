@@ -8,16 +8,18 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.imagesapp.R
 import com.example.imagesapp.adapters.UnsplashImageAdapter
 import com.example.imagesapp.adapters.UnsplashLoadStateAdapter
 import com.example.imagesapp.databinding.FragmentGalleryBinding
+import com.example.imagesapp.models.UnsplashImage
 import com.example.imagesapp.ui.viewmodels.UnsplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery) {
+class GalleryFragment : Fragment(R.layout.fragment_gallery) , UnsplashImageAdapter.OnItemClickListener{
     private var binding:FragmentGalleryBinding?= null
     private val viewModel by viewModels<UnsplashViewModel>()
 
@@ -26,7 +28,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         binding = FragmentGalleryBinding.bind(view)
 
         /** Setup the recycler view **/
-        val adapter = UnsplashImageAdapter()
+        val adapter = UnsplashImageAdapter(this)
         binding?.apply {
 
             recyclerview.setHasFixedSize(true)
@@ -88,8 +90,15 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         })
     }
 
+    override fun onItemClick(unsplashImage: UnsplashImage) {
+        val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(unsplashImage)
+        findNavController().navigate(action)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
+
+
 }

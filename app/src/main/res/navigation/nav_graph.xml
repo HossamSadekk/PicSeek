@@ -9,5 +9,18 @@
         android:id="@+id/galleryFragment"
         android:name="com.example.imagesapp.ui.fragments.GalleryFragment"
         android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.imagesapp.ui.fragments.DetailsFragment"
+        android:label="details_fragment"
+        tools:layout="@layout/details_fragment" >
+        <argument
+            android:name="image"
+            app:argType="com.example.imagesapp.models.UnsplashImage" />
+    </fragment>
 </navigation>
